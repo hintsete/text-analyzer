@@ -1,0 +1,4 @@
+Rust is amazing.
+Rust empowers developers.
+Functional programming in Rust is powerful.
+Rust Rust Rust!
