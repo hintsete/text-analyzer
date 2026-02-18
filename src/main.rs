@@ -5,8 +5,9 @@ mod stats;
 use std::error::Error;
 use std::fs;
 
-use config::Config;
-use analyzer::analyze;
+use crate::config::{Config, OutputFormat};
+use crate::analyzer::analyze;
+use crate::stats::{Stats, export_stats};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::from_args()?;
@@ -15,7 +16,13 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let result = analyze(&contents, &config);
 
-    result.display();
+    // Export or display
+    match (&config.output_file, &config.format) {
+        (Some(file), Some(format)) => {
+            export_stats(&result, file, format)?;
+        }
+        _ => result.display(),
+    }
 
     Ok(())
 }
